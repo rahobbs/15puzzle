@@ -9,6 +9,9 @@ var game = {
       for (var j in this.gameState[i]) {
         var id = i + '-' + j;
         var td = document.getElementById(id);
+        if(td.hasChildNodes()) {
+          td.removeChild(td.firstChild);
+        }
         var textNode = document.createTextNode(this.gameState[i][j]);
         td.addEventListener("click", this.moveTile);
         td.appendChild(textNode);
@@ -24,9 +27,36 @@ var game = {
   },
   moveTile: function() {
     // if target is in a row or column with null, move as appropriate
-    var row = this.getAttribute('id').split('-')[0];
-    var col = this.getAttribute('id').split('-')[1];
-    
+    var rowId = this.getAttribute('id').split('-')[0]
+    var colId = this.getAttribute('id').split('-')[1];
+    var rowOfClick = game.gameState[rowId];
+    var indexOfNull = rowOfClick.indexOf(null);
+    var indexOfClick = rowOfClick.indexOf(parseInt(this.textContent));
+
+
+    //If null square is in the same row as the click
+    if (indexOfNull !== -1) {
+      if (indexOfClick < indexOfNull) {
+        //What was null is set to the value of clicked
+        rowOfClick.splice(indexOfClick, 0, null);
+        rowOfClick.splice(indexOfNull + 1, 1);
+      } else if (indexOfClick > indexOfNull) {
+        rowOfClick.splice(indexOfNull, 1);
+        rowOfClick.splice(indexOfClick, 0, null);
+      }
+    //If the null square is in the same column as the click
+    } else {
+      for (var i in game.gameState) {
+        for (var j in game.gameState) {
+          if (game.gameState[i][colId] === null) {
+            window.alert("column contains null!")
+            break;
+          }
+        }
+      }
+    }
+    console.log(game.gameState);
+    game.setupBoard();
   }
 }
 
