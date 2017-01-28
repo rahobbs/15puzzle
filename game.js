@@ -4,6 +4,11 @@ var game = {
   gameState: [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, null]],
 
   setupBoard: function() {
+    this.gameState = this.setInitialState();
+    console.log("gamestate", this.gameState)
+    game.drawBoard();
+  },
+  drawBoard: function() {
     //Draw 4x4 grid and set cells to the initial game state
     for (var i in this.gameState) {
       for (var j in this.gameState[i]) {
@@ -26,6 +31,35 @@ var game = {
       }
     }
   },
+  setInitialState: function() {
+    var numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0];
+    var state = [[],[],[],[]];
+    numbers = game.shuffle(numbers);
+
+    for(var j = 0; j < 4; j++) {
+      for(var i = 0; i < 4; i++) {
+        if (numbers.pop() === 0){
+          state[j][i] = null;
+        } else {
+          state[j][i] = numbers.pop();
+        }
+      }
+    }
+    return state;
+  },
+  shuffle: function(array) {
+    var i = 0
+    var j = 0
+    var temp = null
+
+    for (i = array.length - 1; i > 0; i -= 1) {
+      j = Math.floor(Math.random() * (i + 1))
+      temp = array[i]
+      array[i] = array[j]
+      array[j] = temp
+    }
+    return array;
+  },
   moveTile: function() {
     // if target is in a row or column with null, move as appropriate
     var rowId = parseInt(this.getAttribute('id').split('-')[0]);
@@ -34,6 +68,9 @@ var game = {
     var indexOfNull = rowOfClick.indexOf(null);
     var indexOfClick = rowOfClick.indexOf(parseInt(this.textContent));
 
+    if (this.textContent.length < 1) {
+      return;
+    }
     //If null square is in the same row as the click
     if (indexOfNull !== -1) {
       game.shiftInRow(indexOfClick, indexOfNull, rowOfClick);
@@ -42,7 +79,7 @@ var game = {
       game.shiftInColumn(rowId, colId, rowOfClick);
     }
     console.log(game.gameState);
-    game.setupBoard();
+    game.drawBoard();
   },
 
   shiftInRow: function(indexOfClick, indexOfNull, rowOfClick) {
