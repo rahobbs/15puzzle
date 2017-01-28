@@ -5,8 +5,8 @@ var game = {
   gameState: null,
 
   setupBoard: function() {
-    this.gameState = this.setInitialState();
-    this.initialState = JSON.parse(JSON.stringify(this.gameState))
+    this.initialState = this.createInitialState();
+    this.gameState = JSON.parse(JSON.stringify(this.initialState));
     game.drawBoard();
   },
   drawBoard: function() {
@@ -32,7 +32,7 @@ var game = {
       }
     }
   },
-  setInitialState: function() {
+  createInitialState: function() {
     var numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0];
     var state = [[],[],[],[]];
     numbers = game.shuffle(numbers);
@@ -131,9 +131,7 @@ window.onload = function(){
     game.setupBoard();
   });
   document.getElementById('reset-game-button').addEventListener('click', function(){
-    game.gameState = game.initialState;
-    console.log("new game state", game.gameState)
-    console.log("initial game state", game.initialState)
+    game.gameState = JSON.parse(JSON.stringify(game.initialState));
     game.drawBoard();
   })
 }
