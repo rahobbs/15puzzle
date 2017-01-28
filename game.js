@@ -1,11 +1,12 @@
 var game = {
   width: 25,
   height: 25,
-  gameState: [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, null]],
+  initialState: null,
+  gameState: null,
 
   setupBoard: function() {
     this.gameState = this.setInitialState();
-    console.log("gamestate", this.gameState)
+    this.initialState = JSON.parse(JSON.stringify(this.gameState))
     game.drawBoard();
   },
   drawBoard: function() {
@@ -23,7 +24,7 @@ var game = {
         //If the cell has a tile, it gets a background color
         if (this.gameState[i][j] !== null) {
           td.style.backgroundColor = '#2edeed';
-        //If a cell has no tile, it gets no text
+          //If a cell has no tile, it gets no text
         } else {
           td.style.background = "#fff";
           td.removeChild(td.childNodes[0]);
@@ -75,7 +76,7 @@ var game = {
     //If null square is in the same row as the click
     if (indexOfNull !== -1) {
       game.shiftInRow(indexOfClick, indexOfNull, rowOfClick);
-    //If the null square is in the same column as the click
+      //If the null square is in the same column as the click
     } else {
       game.shiftInColumn(rowId, colId, rowOfClick);
     }
@@ -107,15 +108,15 @@ var game = {
             }
             game.gameState[rowId][colId] = null;
 
-          //If we find null in a row before the row clicked
-        } else if (rowId > rowWithNull) {
-           var temp = rowOfClick[colId];
-          for (var k = rowId - 1; k >= rowWithNull; k--) {
-            var newTemp = game.gameState[k][colId];
-            game.gameState[k][colId] = temp;
-            temp = newTemp;
-          }
-          game.gameState[rowId][colId] = null;
+            //If we find null in a row before the row clicked
+          } else if (rowId > rowWithNull) {
+            var temp = rowOfClick[colId];
+            for (var k = rowId - 1; k >= rowWithNull; k--) {
+              var newTemp = game.gameState[k][colId];
+              game.gameState[k][colId] = temp;
+              temp = newTemp;
+            }
+            game.gameState[rowId][colId] = null;
           }
           break;
         }
@@ -129,4 +130,10 @@ window.onload = function(){
   document.getElementById('newGame-button').addEventListener('click', function(){
     game.setupBoard();
   });
+  document.getElementById('reset-game-button').addEventListener('click', function(){
+    game.gameState = game.initialState;
+    console.log("new game state", game.gameState)
+    console.log("initial game state", game.initialState)
+    game.drawBoard();
+  })
 }
