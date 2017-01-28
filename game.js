@@ -36,12 +36,13 @@ var game = {
     var state = [[],[],[],[]];
     numbers = game.shuffle(numbers);
 
-    for(var j = 0; j < 4; j++) {
-      for(var i = 0; i < 4; i++) {
-        if (numbers.pop() === 0){
-          state[j][i] = null;
+    for(var column = 0; column < 4; column++) {
+      for(var row = 0; row < 4; row++) {
+        var num = numbers.pop();
+        if (num === 0){
+          state[column][row] = null;
         } else {
-          state[j][i] = numbers.pop();
+          state[column][row] = num;
         }
       }
     }
