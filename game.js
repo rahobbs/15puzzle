@@ -124,4 +124,9 @@ var game = {
   }
 }
 
-game.setupBoard();
+window.onload = function(){
+  game.setupBoard();
+  document.getElementById('newGame-button').addEventListener('click', function(){
+    game.setupBoard();
+  });
+}
