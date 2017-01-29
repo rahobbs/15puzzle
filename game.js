@@ -29,7 +29,7 @@ var game = {
         }
 
         var textNode = document.createTextNode(this.gameState[row][col]);
-        td.style.backgroundColor = '#2edeed';
+        td.style.backgroundColor = '#986de4';
         td.addEventListener('click', this.moveTile);
         td.appendChild(textNode);
       }
