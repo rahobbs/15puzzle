@@ -1,6 +1,11 @@
 body {
   width: 100%;
 }
+
+.page-header {
+  margin-top: 50px;
+  color: #262626;
+}
 #board{
   margin: 0 auto;
 }
@@ -9,21 +14,33 @@ body {
   border: 1px solid #ddd;
   width: 50px;
   height: 50px;
+  font-family: sans-serif;;
   text-align: center;
 }
 
 #button-div {
-  width: 50%;
+  width: 100%;
   margin: 0 auto;
   margin-top: 50px;
 
 }
 .button {
-  width:100%;
   margin: 0 auto;
+  border: none;
   margin-top: 8px;
+  width:70px;
+  background: #3498db;
+  font-size: 12px;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.button:hover {
+  background: #3cb0fd;
+  text-decoration: none;
 }
 
 .page-header {
   text-align: center;
+  font-family: sans-serif;
 }
